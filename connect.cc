@@ -102,6 +102,9 @@ void Connect::makemove(int i) {
 
 void Connect::start() {
     cin >> turn;
+    if (cin.eof()) {
+      return;
+    }
     if (turn == 'R')
     {
       t = "Red";
@@ -131,10 +134,16 @@ void Connect::play() {
         cout << "It's a tie!" << endl;
         break;
       }
+      if(cin.fail()) {
+        cout << "You did not enter a number." << endl;
+        cin.clear();
+        cin.ignore();
+        continue;
+      }
       int move;
       cout << t << ", give me a number from 1-7." << endl;
       cin >> move;
-      if (move < 1 || move > 7 ||cin.fail()) {
+      if (move < 1 || move > 7) {
         cout << "Number outside of range. Please try again." << endl;
         continue;
       }

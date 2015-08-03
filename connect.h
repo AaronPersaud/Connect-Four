@@ -1,3 +1,5 @@
+#ifndef CONNECT
+#define CONNECT 
 #include <string>
 
 class Connect{
@@ -17,3 +19,5 @@ public:
     bool winDiag1();
     bool winDiag2();
 };
+
+#endif
