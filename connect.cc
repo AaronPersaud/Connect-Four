@@ -22,6 +22,41 @@ Connect::~Connect() {
   delete [] board;
 }
 
+void Connect::setToken(char c) {
+ computer = c;
+}
+
+void Connect::chooseToken() {
+  cout << "Please choose R or Y" <<  endl;
+  char c;
+  while(true) {
+    cin >> c;
+    if(cin.eof()) {
+      break;
+    }
+    else if(c == 'R') {
+      computer = 'Y';
+      break;
+    }
+    else if(c == 'Y') {
+      computer = 'R';
+      break;
+    }
+    else{
+      cout << "Try Again" << endl;
+      continue;
+    }
+  }
+}
+
+void Connect::setComputer(Computer* c) {
+  AI = c;
+}
+
+char Connect::getState(int x,int y) {
+  return board[x][y];
+}
+
 bool Connect::isDraw() {
   return (board[0][0]!= '-' && board[1][0]!= '-' && board[2][0]!= '-' && board[3][0]!= '-' && board[4][0]!= '-' && board[5][0]!= '-' && board[6][0]!= '-');
 }
@@ -121,6 +156,18 @@ void Connect::start() {
     }
 }
 
+void Connect::switchTurn() {
+      if (turn == 'R')
+      {
+         turn = 'Y';
+         t = "Yellow";
+      }
+      else {
+        turn = 'R';
+        t = "Red";
+      }
+}
+
 void Connect::play() {
     printBoard();
     while(true) {
@@ -140,6 +187,12 @@ void Connect::play() {
         cin.ignore();
         continue;
       }
+      if(AI != NULL && turn == computer) {
+       AI->makeMove();
+       printBoard();
+       switchTurn();
+       continue;
+      }
       int move;
       cout << t << ", give me a number from 1-7." << endl;
       cin >> move;
@@ -153,14 +206,7 @@ void Connect::play() {
       }
       makemove(move-1);
       printBoard();
-      if (turn == 'R')
-      {
-         turn = 'Y';
-         t = "Yellow";
-      }
-      else {
-        turn = 'R';
-        t = "Red";
-      }
+      switchTurn();
     }
 }
+
